@@ -65,6 +65,9 @@ public class Employee {
 		this.location = location;
 	}
 
+	public Employee() {
+		
+	}
 	@Override
 	public String toString() {
 		return "Employee [empId=" + empId + ", empName=" + empName + ", deptName=" + deptName + ", location=" + location

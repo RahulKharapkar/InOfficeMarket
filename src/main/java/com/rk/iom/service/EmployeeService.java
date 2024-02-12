@@ -2,6 +2,7 @@ package com.rk.iom.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rk.iom.entity.Employee;
 import com.rk.iom.exception.InvalidEmployeeException;
@@ -19,5 +20,15 @@ public class EmployeeService {
 			return employee;
 		
 	}
+
+	@Transactional
+	public Employee addEmployee(Employee employee) {
+		
+		return empRepo.save(employee);
+	}
+	
+	
+	
+	
 
 }
