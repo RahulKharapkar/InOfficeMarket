@@ -21,13 +21,13 @@ import com.rk.iom.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/login")
 public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
-	@PostMapping("/user/login")
+	@PostMapping("/login")
 	public ResponseEntity<User> loginUser(@RequestBody User user) throws InvalidUserException{
 		int tempUserId = user.getUserId();
 		String tempPassword = user.getPassword();
@@ -41,7 +41,7 @@ public class UserController {
 		return new ResponseEntity<User>(userObj,HttpStatus.OK);
 	}
 	
-	@PostMapping("/user/addUser")
+	@PostMapping("/addUser")
 	public ResponseEntity<User> saveUser(@RequestBody User user) throws InvalidUserException{
 		User existingUser = userService.getByUserId(user.getUserId());
 		if(existingUser != null) {
@@ -56,7 +56,7 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/user/byId/{userId}")
+	@GetMapping("/byId/{userId}")
 	public ResponseEntity<User> getUserById(@PathVariable("userId") Integer userId) throws InvalidUserException{
 		User u = userService.getByUserId(userId);
 		return new ResponseEntity<User>(u,HttpStatus.OK);
@@ -74,7 +74,7 @@ public class UserController {
 		
 	}
 	
-	@DeleteMapping("/user/deleteUser/{userId}")
+	@DeleteMapping("/deleteUser/{userId}")
 	public ResponseEntity<List<User>> deleteUser(@PathVariable("userId") Integer userId) {
 		
 		List<User> users = userService.removeUser(userId);

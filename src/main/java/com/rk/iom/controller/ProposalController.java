@@ -21,14 +21,14 @@ import com.rk.iom.service.ProposalService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/proposal")
 public class ProposalController {
 	@Autowired
 	ProposalService propService;
 	
 	
 		// get proposal by id
-	@GetMapping("/proposal/{proposalId}")
+	@GetMapping("/{proposalId}")
 	public ResponseEntity<Proposal> findProposal(@PathVariable("proposalId") Integer propId)
 			throws InvalidProposalException {
 		Proposal proposal = propService.getProposal(propId);
@@ -36,7 +36,7 @@ public class ProposalController {
 	}
 	
 		//	get all proposals 
-	@GetMapping("/proposal/allProposals")
+	@GetMapping("/allProposals")
 	public ResponseEntity<List<Proposal>> fetchAllProposals() {
 		List<Proposal> props = propService.getAllProposals();
 
@@ -48,7 +48,7 @@ public class ProposalController {
 	}
 
 //		add proposal
-	@PostMapping("/proposal/addProposal")
+	@PostMapping("/addProposal")
 	public ResponseEntity<Proposal> saveProposal(@RequestBody Proposal proposal) {
 		Proposal prop = propService.addProposal(proposal);
 		if (prop == null) {
@@ -59,7 +59,7 @@ public class ProposalController {
 	}
 
 //	edit proposal
-	@PutMapping("/proposal/editProposal")
+	@PutMapping("/editProposal")
 	public ResponseEntity<Proposal> updateProposal(@RequestBody Proposal proposal) {
 		Proposal prop = propService.editProposal(proposal);
 		if (prop == null) {
@@ -70,7 +70,7 @@ public class ProposalController {
 	}
 
 //	delete proposal by id
-	@DeleteMapping("/proposal/{proposalId}")
+	@DeleteMapping("/{proposalId}")
 	public ResponseEntity<List<Proposal>> deleteProposal(@PathVariable("proposalId") Integer propId)
 			throws InvalidProposalException {
 		List<Proposal>proposal = propService.removeProposal(propId);

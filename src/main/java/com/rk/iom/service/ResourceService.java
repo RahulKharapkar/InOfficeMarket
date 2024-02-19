@@ -20,14 +20,14 @@ public class ResourceService {
 	}
 
 	public List<Resource> getAllResources(int empId) throws InvalidEmployeeException {
-//		if (resRepo.fetchAllResources(empId).isEmpty())
-//			throw new InvalidEmployeeException("No Resources available for the EmpId : " + empId);
-//		else
-			return resRepo.fetchAllResources(empId);
+		if (resRepo.findResourceByEmpId(empId).isEmpty())
+			throw new InvalidEmployeeException("No Resources available for the EmpId : " + empId);
+		else
+			return resRepo.findResourceByEmpId(empId);
 	}
 
 	public List<Resource> getAllResources() {
 
-		return resRepo.fetchAllResources();
+		return resRepo.findAll();
 	}
 }

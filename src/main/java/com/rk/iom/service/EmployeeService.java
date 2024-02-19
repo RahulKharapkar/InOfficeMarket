@@ -13,6 +13,8 @@ import com.rk.iom.model.Proposal;
 import com.rk.iom.model.Requirement;
 import com.rk.iom.repository.EmployeeRepository;
 import com.rk.iom.repository.OfferRepository;
+import com.rk.iom.repository.ProposalRepository;
+import com.rk.iom.repository.RequirementRepository;
 
 @Service
 public class EmployeeService {
@@ -23,115 +25,91 @@ public class EmployeeService {
 	@Autowired
 	OfferRepository offerRepo;
 	
-//	public Employee getEmployee(int empId)  {
-//		
-//			Employee employee = empRepo.findEmployeeByEmpId(empId);
-//			return employee;
-//		
-//	}
-
-//	@Transactional
-//	public Employee addEmployee(Employee employee) {
-//		
-//		return empRepo.save(employee);
-//	}
-//	
-//	
-//	public Employee editEmployee(Employee emp) {
-//		return empRepo.save(emp);
-//	}
+	@Autowired
+	RequirementRepository reqRepo;
 	
-//	public Offer updateIsAvailable(Offer offer) {
-//		
-//	}
+	@Autowired
+	ProposalRepository propRepo;
 	
-//	public List<Offer> getAllOffers(int empId) throws InvalidEmployeeException {
-//		if(offerRepo.findOffersForEmployeeId(empId).isEmpty()){
-//			throw new InvalidEmployeeException("No Offers available for the EmpId : " +empId);
-//		}
-//		else{
-//			return offerRepo.findOffersForEmployeeId(empId);
-//		}
-//	}
-	
-	
-	@Transactional
-	public Employee addEmployee(Employee emp) {
+	public Employee getEmployee(int empId)  {
 		
-		return empRepo.saveEmployee(emp);
+			Employee employee = empRepo.findEmployeeByEmpId(empId);
+			return employee;
+		
 	}
+	
 
+	@Transactional
+	public Employee addEmployee(Employee employee) {
+		
+		return empRepo.save(employee);
+	}
 	
 	@Transactional
 	public Employee editEmployee(Employee emp) {
 		
-		return empRepo.updateEmployee(emp);
+		return empRepo.save(emp);
 	}
+	
 
 	
-	public Employee getEmployee(int empId) throws InvalidEmployeeException {
-//		if(empRepo.fetchEmployee(empId) == null){
-//			
-//			throw new InvalidEmployeeException("Invalid Employee Exception, No Employee with Id : " + empId);
-//		}
-//		else
-			Employee employee = empRepo.fetchEmployee(empId);
-			return employee;
-		
+//	Employee -- Offer Section
+	
+	public List<Offer> getAllOffers(int empId) throws InvalidEmployeeException {
+		if(offerRepo.findOffersForEmployeeId(empId).isEmpty()){
+			throw new InvalidEmployeeException("No Offers available for the EmpId : " +empId);
+		}
+		else{
+			return offerRepo.findOffersForEmployeeId(empId);
+		}
 	}
-
+	
 	
 	@Transactional
 	public Offer updateIsAvailable(Offer offer) {
 		
-		return empRepo.statusUpdate(offer);
+		return offerRepo.save(offer);
 		
 	}
-
+	
+	
+// update isFullfield value to requirement  
 	
 	@Transactional
 	public Requirement updateIsFulfilled(Requirement req) {
-		empRepo.statusUpdate(req);
+		reqRepo.save(req);
 		return req;
 	}
-
 	
+// update if proposal is accepted in proposal table of db.	
 	@Transactional
 	public Proposal updateIsAccepted(Proposal prop) {
-		empRepo.statusUpdate(prop);
+		
+		propRepo.save(prop);
 		return prop;
 	}
 
+
 	
-	public List<Offer> getAllOffers(int empId) throws InvalidEmployeeException {
-//		if(empRepo.fetchAllOffers(empId).isEmpty())
-//			throw new InvalidEmployeeException("No Offers available for the EmpId : " +empId);
-//		
-//		else
-			return empRepo.fetchAllOffers(empId);
-		
-	}
-	
+// getrequirements by employeeId 	
 	
 	public List<Requirement> getAllRequirements(int empId) throws InvalidEmployeeException {
-//		if(empRepo.fetchAllRequirements(empId).isEmpty())
-//			throw new InvalidEmployeeException("No requirements available for the EmpId : " +empId);
-//		
-//		else
-			return empRepo.fetchAllRequirements(empId);
+		if(reqRepo.findRequirementByEmpId (empId).isEmpty())
+			throw new InvalidEmployeeException("No requirements available for the EmpId : " +empId);
+		
+		else
+			return reqRepo.findRequirementByEmpId (empId);
 		
 	}
 
-	
+// find proposal for a perticular employee	
 	public List<Proposal> getAllProposals(int empId) throws InvalidEmployeeException {
-//		if(empRepo.fetchAllProposals(empId).isEmpty()){
-//			throw new InvalidEmployeeException("No Proposals available for the EmpId : " +empId);
-//		}
-//		else
-			return empRepo.fetchAllProposals(empId);
+		if(propRepo.findProposalByEmpId(empId).isEmpty()){
+			throw new InvalidEmployeeException("No Proposals available for the EmpId : " +empId);
+		}
+		else
+			return propRepo.findProposalByEmpId(empId);
 		
-	}
+	}	
 	
-	
-
 }

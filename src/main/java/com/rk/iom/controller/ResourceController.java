@@ -17,19 +17,19 @@ import com.rk.iom.service.ResourceService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/resource")
 public class ResourceController {
 	
 	@Autowired
 	ResourceService resService;
 	
-	@GetMapping("/resource/allResources/{empId}")
+	@GetMapping("/allResources/{empId}")
 	public ResponseEntity<List<Resource>> findAllResource(@PathVariable("empId") Integer empId) throws InvalidEmployeeException {
 		List<Resource> resources = resService.getAllResources(empId);
 		return new ResponseEntity<List<Resource>>(resources, HttpStatus.OK);
 	}
 	
-	@GetMapping("/resource/allResources/{category}/{resType}")
+	@GetMapping("/allResources/{category}/{resType}")
 	public  ResponseEntity<List<Resource>> findAllResource(@PathVariable("category") String category,@PathVariable("resType") String resType){
 		List<Resource> resources = resService.getAllResources(category, resType);
 		if(resources.isEmpty()){
@@ -40,7 +40,7 @@ public class ResourceController {
 		}
 	}	
 	
-	@GetMapping("/resource/allResources")
+	@GetMapping("/allResources")
 	public  ResponseEntity<List<Resource>> findAllResource(){
 		List<Resource> resources = resService.getAllResources();
 		if(resources.isEmpty())	{

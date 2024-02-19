@@ -21,30 +21,30 @@ public class ProposalService {
 	@Transactional
 	public Proposal addProposal(Proposal prop) {
 
-		return propRepo.saveProposal(prop);
+		return propRepo.save(prop);
 	}
 
 	@Transactional
 	public Proposal editProposal(Proposal prop) {
 
-		return propRepo.updateProposal(prop);
+		return propRepo.save(prop);
 
 	}
 	public Proposal getProposal(int propId) throws InvalidProposalException {
 
-		return propRepo.fetchProposal(propId);
+		return propRepo.findProposalByPropId(propId);
 	}
 	@Transactional
 	public List<Proposal> removeProposal(int propId) throws InvalidProposalException {
 
-		propRepo.deleteProposal(propId);
-		return propRepo.fetchAllProposals();
+		propRepo.deleteById(propId);
+		return propRepo.findAll();
 	}
 
 	
 	public List<Proposal> getAllProposals() {
 
-		return propRepo.fetchAllProposals();
+		return propRepo.findAll();
 	}
 
 }

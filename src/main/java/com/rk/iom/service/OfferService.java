@@ -14,39 +14,39 @@ import com.rk.iom.repository.OfferRepository;
 public class OfferService {
 
 	@Autowired
-	private OfferRepository offerRepo;
+	OfferRepository offerRepo;
 
+//	Offer CRUD
 	@Transactional
 	public Offer addOffer(Offer offer) {
 
-		return offerRepo.saveOffer(offer);
+		return offerRepo.save(offer);
 	}
 
 	@Transactional
 	public Offer editOffer(Offer offer) {
 
-		return offerRepo.updateOffer(offer);
+		return offerRepo.save(offer);
 	}
 
 	public Offer getOffer(int offerId) throws InvalidOfferException {
 
-		return offerRepo.fetchOffer(offerId);
+		return offerRepo.getOfferByOfferId(offerId);
 	}
 
 	public List<Offer> getAllOffers() {
-		return offerRepo.fetchAllOffers();
+		return offerRepo.findAll();
 	}
 
 	public List<Offer> getAllOffers(String category, String resType) {
-		return offerRepo.fetchAllOffers(category, resType);
+		return offerRepo.findOffersByCategoryAndResType(category, resType);
 
 	}
 
 	@Transactional
 	public List<Offer> removeOffer(int offerId) throws InvalidOfferException {
-
-		offerRepo.deleteOffer(offerId);
-		return offerRepo.fetchAllOffers();
+		offerRepo.deleteById(offerId);
+		return offerRepo.findAll();
 	}
 
 }

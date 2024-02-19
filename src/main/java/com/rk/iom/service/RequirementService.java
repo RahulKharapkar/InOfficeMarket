@@ -30,7 +30,7 @@ public class RequirementService {
     
     @Transactional
     public Requirement addRequirement(Requirement req) {
-        return reqRepo.saveRequirement(req);
+        return reqRepo.save(req);
     }
 
     /**
@@ -42,7 +42,7 @@ public class RequirementService {
     
     @Transactional
     public Requirement editRequirement(Requirement req) {
-        return reqRepo.updateRequirement(req);
+        return reqRepo.save(req);
     }
 
     /**
@@ -54,7 +54,7 @@ public class RequirementService {
      */
     
     public Requirement getRequirement(int reqId) throws InvalidRequirementException {
-        return reqRepo.fetchRequirement(reqId);
+        return reqRepo.findRequirementByReqId(reqId);
     }
 
     /**
@@ -64,7 +64,7 @@ public class RequirementService {
      */
     
     public List<Requirement> getAllRequirements() {
-        return reqRepo.fetchAllRequirements();
+        return reqRepo.findAll();
     }
 
     /**
@@ -88,7 +88,7 @@ public class RequirementService {
     
     @Transactional
     public List<Requirement> removeRequirement(int reqId) throws InvalidRequirementException {
-        reqRepo.deleteRequirement(reqId);
-        return reqRepo.fetchAllRequirements();
+        reqRepo.deleteById(reqId);
+        return reqRepo.findAll();
     }
 }

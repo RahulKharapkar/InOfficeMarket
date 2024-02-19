@@ -20,19 +20,19 @@ import com.rk.iom.service.RequirementService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/requirement")
 public class RequirementController {
 	@Autowired
 	RequirementService reqService;
 	
 
-	@GetMapping("/requirement/getRequirement/{reqId}")
+	@GetMapping("/getRequirement/{reqId}")
 	public ResponseEntity<Requirement> findRequirement(@PathVariable("reqId") Integer reqId ) throws InvalidRequirementException{
 		Requirement requirement = reqService.getRequirement(reqId);
 		return new ResponseEntity<Requirement>(requirement,HttpStatus.OK);
 	}
 	
-	@GetMapping("/requirement/allrequirements")
+	@GetMapping("/allrequirements")
 	public ResponseEntity<List<Requirement>> allRequirements(){
 		
 		 List<Requirement> req = reqService.getAllRequirements();
@@ -44,7 +44,7 @@ public class RequirementController {
 		 }
 	}
 	
-	@GetMapping("/requirement/allrequirements/{category}/{resType}")
+	@GetMapping("/allrequirements/{category}/{resType}")
 	public ResponseEntity<List<Requirement>> allRequirements(@PathVariable("category") String category,@PathVariable("resType") String resType){
 		
 		List<Requirement> req = reqService.getAllRequirements(category, resType);
@@ -57,7 +57,7 @@ public class RequirementController {
 		
 	}
 	
-	@PostMapping("/requirement/addRequirement")
+	@PostMapping("/addRequirement")
 		public ResponseEntity<Requirement>  saveRequirement(@RequestBody Requirement requirement){
 			Requirement req = reqService.addRequirement(requirement);
 			if(req == null) {
@@ -68,7 +68,7 @@ public class RequirementController {
 			}
 	}
 	
-	@PutMapping("/requirement/editRequirement")
+	@PutMapping("/editRequirement")
 	public ResponseEntity<Requirement> updateRequirement(@RequestBody Requirement requirement){
 		Requirement req = reqService.editRequirement(requirement);
 		if(req == null) {
@@ -81,7 +81,7 @@ public class RequirementController {
 	}
 	
 	
-	@DeleteMapping("/requirement/deleteRequirements/{reqId}")
+	@DeleteMapping("/deleteRequirements/{reqId}")
 	public ResponseEntity<List<Requirement>> deleteRequirement(@PathVariable("reqId")Integer reqId) throws InvalidRequirementException{
 		
 		List<Requirement> req = reqService.removeRequirement(reqId);

@@ -22,19 +22,19 @@ import com.rk.iom.service.OfferService;
 
 //@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/offer")
 public class OfferController {
 	
 	@Autowired
 	OfferService  offerService;
 	
-	@GetMapping("/offer/{offerId}")
+	@GetMapping("{offerId}")
 	public ResponseEntity<Offer> findOffer(@PathVariable("offerId") Integer offerId) throws InvalidOfferException{
 		Offer offer = offerService.getOffer(offerId);
 		return new ResponseEntity<Offer>(offer, HttpStatus.OK);
 	}
 	
-	@PostMapping("/offer/addOffer")
+	@PostMapping("addOffer")
 	public ResponseEntity<Offer> saveOffer(@RequestBody Offer offer) {
 		Offer off = offerService.addOffer(offer);
 		if (off == null) {
@@ -44,7 +44,7 @@ public class OfferController {
 		}
 	}
 	
-	@PutMapping("/offer/editOffer")
+	@PutMapping("editOffer")
 	public ResponseEntity<Offer> updateOffer(@RequestBody Offer offer) {
 		Offer off = offerService.editOffer(offer);
 		if (off == null) {
@@ -54,7 +54,7 @@ public class OfferController {
 		}
 	}
 	
-	@GetMapping("/offer/allOffers")
+	@GetMapping("allOffers")
 	public ResponseEntity<List<Offer>> allOffers() {
 		List<Offer> off = offerService.getAllOffers();
 		if (off == null) {
@@ -64,7 +64,7 @@ public class OfferController {
 		}
 	}
 	
-	@GetMapping("/offer/alloffers/{category}/{resType}")
+	@GetMapping("alloffers/{category}/{resType}")
 	public ResponseEntity<List<Offer>> allOffers(@PathVariable("category") String category, @PathVariable("resType") String resType){
 		List<Offer> off = offerService.getAllOffers(category, resType);
 		if (off == null) {
@@ -74,7 +74,7 @@ public class OfferController {
 		}
 	}
 	
-	@DeleteMapping("/offer/deleteOffer/{offerId}")
+	@DeleteMapping("deleteOffer/{offerId}")
 	public ResponseEntity<List<Offer>> deleteOffer(@PathVariable("offerId") Integer offId) throws InvalidOfferException {
 		List<Offer> offer = offerService.removeOffer(offId);
 		System.out.println(offId);

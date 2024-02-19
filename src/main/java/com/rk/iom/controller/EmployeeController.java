@@ -35,25 +35,6 @@ public class EmployeeController {
 	    return ResponseEntity.ok(employee);
 	}
 
-	
-	@GetMapping("/allOffers/{employeeId}")
-	public ResponseEntity<List<Offer>> allOffers(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
-		 List<Offer> offers = empService.getAllOffers(employeeId);
-		 return new ResponseEntity<>(offers, HttpStatus.OK);
-	}
-	
-	@GetMapping("/allRequirements/{employeeId}")
-	public ResponseEntity<List<Requirement>> allRequirements(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
-		 List<Requirement> requirements = empService.getAllRequirements(employeeId);
-		 return new ResponseEntity<>(requirements, HttpStatus.OK);
-	}
-	
-	@GetMapping("/allProposals/{employeeId}")
-	public ResponseEntity<List<Proposal>> allProposals(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
-		 List<Proposal> proposals = empService.getAllProposals(employeeId);
-		 return new ResponseEntity<>(proposals, HttpStatus.OK);
-	}
-	
 	@PostMapping("/addEmployee")
 	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) throws InvalidEmployeeException{
 		Employee emp = empService.addEmployee(employee);
@@ -76,6 +57,28 @@ public class EmployeeController {
 		}
 	}
 	
+	
+	@GetMapping("/allOffers/{employeeId}")
+	public ResponseEntity<List<Offer>> allOffers(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
+		 List<Offer> offers = empService.getAllOffers(employeeId);
+		 return new ResponseEntity<>(offers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/allRequirements/{employeeId}")
+	public ResponseEntity<List<Requirement>> allRequirements(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
+		 List<Requirement> requirements = empService.getAllRequirements(employeeId);
+		 return new ResponseEntity<>(requirements, HttpStatus.OK);
+	}
+	
+	@GetMapping("/allProposals/{employeeId}")
+	public ResponseEntity<List<Proposal>> allProposals(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
+		 List<Proposal> proposals = empService.getAllProposals(employeeId);
+		 return new ResponseEntity<>(proposals, HttpStatus.OK);
+	}
+	
+	
+	
+//	updates isAvailable field in offer , whether offer is available or not by setting true / false 
 	@PutMapping("/updateOffer")
 	public ResponseEntity<Offer> updateOffer(@RequestBody Offer offer){
 		Offer off = empService.updateIsAvailable(offer);
