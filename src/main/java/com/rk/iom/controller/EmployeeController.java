@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/employee")
+@Validated
 public class EmployeeController {
 
 	@Autowired
@@ -49,11 +51,12 @@ public class EmployeeController {
 
 	@PostMapping("/addEmployee")
 	public ResponseEntity<Employee> saveEmployee(@RequestBody @Valid Employee employee) {
+		int empId = employee.getEmpId();
 		Employee emp = empService.addEmployee(employee);
-		logger.info("Request to add new employee");
+		logger.info("Request to add new employee",empId);
 
 		if (emp == null) {
-			logger.error("Error in adding new employee");
+			logger.error("Error in adding new employee : ",empId);
 			return new ResponseEntity("Error in Service", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(emp, HttpStatus.CREATED);
@@ -101,11 +104,13 @@ public class EmployeeController {
 //	updates isAvailable field in offer , whether offer is available or not by setting true / false 
 	@PutMapping("/updateOffer")
 	public ResponseEntity<Offer> updateOffer(@RequestBody Offer offer) {
+		
+		int empId = offer.getEmp().getEmpId();
 		Offer off = empService.updateIsAvailable(offer);
-		logger.info(" Request to Update isAvailable field in offer from method updateOffer : ");
+		logger.info(" Request recieved in updateOffer to Update isAvailable with empId : ", empId);
 
 		if (off == null) {
-			logger.error(" error in updateOffer : ");
+			logger.error(" error in updateOffer : ", empId);
 			return new ResponseEntity("Sorry! Offer not editied!", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(off, HttpStatus.OK);
@@ -114,8 +119,11 @@ public class EmployeeController {
 
 	@PutMapping("/updateRequirement")
 	public ResponseEntity<Requirement> updateRequirement(@RequestBody @Valid Requirement requirement) {
+		int empId = requirement.getEmp().getEmpId();
+		logger.info("Request to update the requirement with empId : ",empId);
 		Requirement req = empService.updateIsFulfilled(requirement);
 		if (req == null) {
+			logger.error(" Error occured in updateRequirement : ",empId);
 			return new ResponseEntity("Sorry! Requirement not editied!", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(req, HttpStatus.OK);
@@ -124,8 +132,12 @@ public class EmployeeController {
 
 	@PutMapping("/updateProposal")
 	public ResponseEntity<Proposal> updateProposal(@RequestBody @Valid Proposal proposal) {
+		int empId = proposal.getEmp().getEmpId();
+		
+		logger.info("Request recieved in updateProposal with empId : ", empId);
 		Proposal prop = empService.updateIsAccepted(proposal);
 		if (prop == null) {
+			logger.error(" error in updateProposal with empId : ",empId);
 			return new ResponseEntity("Sorry! Proposal cannot editied!", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(prop, HttpStatus.OK);

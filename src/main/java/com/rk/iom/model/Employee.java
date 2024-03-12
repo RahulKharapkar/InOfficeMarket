@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Employees")
@@ -23,6 +24,7 @@ public class Employee {
 	private int empId;
 
 	@NotBlank(message = "name cannot be blank")
+	@NotNull(message = "name cannot be null")
 	@Column(name = "emp_name")
 	private String empName;
 
