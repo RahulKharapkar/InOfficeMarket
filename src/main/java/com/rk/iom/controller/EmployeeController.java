@@ -2,6 +2,8 @@ package com.rk.iom.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,101 +22,114 @@ import com.rk.iom.model.Proposal;
 import com.rk.iom.model.Requirement;
 import com.rk.iom.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
 
 	@Autowired
 	EmployeeService empService;
-	
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+
 	
 	@GetMapping("/{employeeId}")
-	public ResponseEntity<Employee> findEmployee(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException {
-	    Employee employee = empService.getEmployee(employeeId);
-	    return ResponseEntity.ok(employee);
+	public ResponseEntity<Employee> findEmployee(@PathVariable("employeeId") Integer employeeId) {
+		logger.info("Request to find employee with ID: {}", employeeId);
+		Employee employee = empService.getEmployee(employeeId);
+		if (employee == null) {
+			logger.warn("Employee with ID: {} not found", employeeId);
+			return new ResponseEntity(" Employee not available!", HttpStatus.NOT_FOUND);}
+		else {
+			
+			return new ResponseEntity<>(employee, HttpStatus.OK);
+		}
 	}
 
 	@PostMapping("/addEmployee")
-	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) throws InvalidEmployeeException{
+	public ResponseEntity<Employee> saveEmployee(@RequestBody @Valid Employee employee) {
 		Employee emp = empService.addEmployee(employee);
-		if(emp == null){
-			return new ResponseEntity("Sorry! Employee not available!", HttpStatus.NOT_FOUND);
-		}
-		else {
-			return new ResponseEntity<>(emp,HttpStatus.OK);
+		logger.info("Request to add new employee");
+
+		if (emp == null) {
+			logger.error("Error in adding new employee");
+			return new ResponseEntity("Error in Service", HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(emp, HttpStatus.CREATED);
 		}
 	}
-	
+
 	@PutMapping("/editEmployee")
-	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee){
+	public ResponseEntity<Employee> updateEmployee(@RequestBody @Valid Employee employee) {
+		
+		int employeeId = employee.getEmpId();
+		logger.info("Request to Edit a employee : ", employeeId);
 		Employee emp = empService.editEmployee(employee);
-		if(emp == null){
+		if (emp == null) {
+			logger.error("Error in editing an employee", employeeId);
 			return new ResponseEntity("Sorry! Employee not editied!", HttpStatus.NOT_FOUND);
-		}
-		else {
-			return new ResponseEntity<>(emp,HttpStatus.OK);
+		} else {	
+			return new ResponseEntity<>(emp, HttpStatus.OK);
 		}
 	}
-	
-	
+
 	@GetMapping("/allOffers/{employeeId}")
-	public ResponseEntity<List<Offer>> allOffers(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
-		 List<Offer> offers = empService.getAllOffers(employeeId);
-		 return new ResponseEntity<>(offers, HttpStatus.OK);
+	public ResponseEntity<List<Offer>> allOffers(@PathVariable("employeeId") Integer employeeId)
+			throws InvalidEmployeeException {
+		logger.info(" Request to get an offer based on employeeId : ", employeeId);
+		List<Offer> offers = empService.getAllOffers(employeeId);
+		return new ResponseEntity<>(offers, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/allRequirements/{employeeId}")
-	public ResponseEntity<List<Requirement>> allRequirements(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
-		 List<Requirement> requirements = empService.getAllRequirements(employeeId);
-		 return new ResponseEntity<>(requirements, HttpStatus.OK);
+	public ResponseEntity<List<Requirement>> allRequirements(@PathVariable("employeeId") Integer employeeId)
+			throws InvalidEmployeeException {
+		logger.info(" Request to get a requirement based on employeeId : ",employeeId);
+		List<Requirement> requirements = empService.getAllRequirements(employeeId);
+		return new ResponseEntity<>(requirements, HttpStatus.OK);
 	}
 	
 	@GetMapping("/allProposals/{employeeId}")
-	public ResponseEntity<List<Proposal>> allProposals(@PathVariable("employeeId") Integer employeeId) throws InvalidEmployeeException{
-		 List<Proposal> proposals = empService.getAllProposals(employeeId);
-		 return new ResponseEntity<>(proposals, HttpStatus.OK);
+	public ResponseEntity<List<Proposal>> allProposals(@PathVariable("employeeId") Integer employeeId)
+			throws InvalidEmployeeException {
+		logger.info(" Request to get a proposal based on employeeId : ",employeeId);
+		List<Proposal> proposals = empService.getAllProposals(employeeId);
+		return new ResponseEntity<>(proposals, HttpStatus.OK);
 	}
-	
-	
-	
+
 //	updates isAvailable field in offer , whether offer is available or not by setting true / false 
 	@PutMapping("/updateOffer")
-	public ResponseEntity<Offer> updateOffer(@RequestBody Offer offer){
+	public ResponseEntity<Offer> updateOffer(@RequestBody Offer offer) {
 		Offer off = empService.updateIsAvailable(offer);
-		if(off == null){
+		logger.info(" Request to Update isAvailable field in offer from method updateOffer : ");
+
+		if (off == null) {
+			logger.error(" error in updateOffer : ");
 			return new ResponseEntity("Sorry! Offer not editied!", HttpStatus.NOT_FOUND);
-		}
-		else {
-			return new ResponseEntity<>(off,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(off, HttpStatus.OK);
 		}
 	}
-	
+
 	@PutMapping("/updateRequirement")
-	public ResponseEntity<Requirement> updateRequirement(@RequestBody Requirement requirement){
+	public ResponseEntity<Requirement> updateRequirement(@RequestBody @Valid Requirement requirement) {
 		Requirement req = empService.updateIsFulfilled(requirement);
-		if(req == null){
+		if (req == null) {
 			return new ResponseEntity("Sorry! Requirement not editied!", HttpStatus.NOT_FOUND);
-		}
-		else {
-			return new ResponseEntity<>(req,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(req, HttpStatus.OK);
 		}
 	}
-	
+
 	@PutMapping("/updateProposal")
-	public ResponseEntity<Proposal> updateProposal(@RequestBody Proposal proposal){
+	public ResponseEntity<Proposal> updateProposal(@RequestBody @Valid Proposal proposal) {
 		Proposal prop = empService.updateIsAccepted(proposal);
-		if(prop == null){
-			return new ResponseEntity("Sorry! Proposal not editied!", HttpStatus.NOT_FOUND);
-		}
-		else {
-			return new ResponseEntity<>(prop,HttpStatus.OK);
+		if (prop == null) {
+			return new ResponseEntity("Sorry! Proposal cannot editied!", HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(prop, HttpStatus.OK);
 		}
 	}
-		
-	@GetMapping("/check")
-	public String checkHello() {
-		return "check Hello";
-	}
-	
+
 }
