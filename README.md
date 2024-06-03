@@ -48,7 +48,7 @@ InOffice Marketplace is an in-house platform designed for employees to offer or 
 - **Home Page**: Browse all available listings.
 - **Post New Listing**: Create a new listing by providing details about the item or service.
 - **Search Listings**: Use the search bar to find specific items or services.
-- **API Documentation**: Access the Swagger UI for API documentation at `[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui/index.html#/)`.
+- **API Documentation**: Access the Swagger UI for API documentation at `[link text](link:http://localhost:8080/swagger-ui/index.html#/)`.
 
 ## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
