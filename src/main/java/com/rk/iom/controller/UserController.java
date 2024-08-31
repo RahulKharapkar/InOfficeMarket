@@ -21,14 +21,14 @@ import com.rk.iom.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/api")
 public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
 	@PostMapping("/login")
-	public ResponseEntity<User> loginUser(@RequestBody User user) throws InvalidUserException{
+	public ResponseEntity<String> loginUser(@RequestBody User user) throws InvalidUserException{
 		int tempUserId = user.getUserId();
 		String tempPassword = user.getPassword();
 		User userObj = null;
@@ -38,7 +38,7 @@ public class UserController {
 		if(userObj == null){
 			throw new InvalidUserException("Wrong userId and Password");
 		}
-		return new ResponseEntity<User>(userObj,HttpStatus.OK);
+		return new ResponseEntity<>("Login Successfull",HttpStatus.OK);
 	}
 	
 	@PostMapping("/addUser")
@@ -49,10 +49,10 @@ public class UserController {
 		}
 		User u = userService.addUser(user);
 		if(u == null) {
-			return new ResponseEntity("Sorry! User are not available!", HttpStatus.NOT_FOUND);
+			return new ResponseEntity("Sorry! Users are not available!", HttpStatus.NOT_FOUND);
 		}
 		else {
-			return new ResponseEntity<User>(u,HttpStatus.OK);
+			return new ResponseEntity<User>(u,HttpStatus.CREATED );
 		}
 	}
 	

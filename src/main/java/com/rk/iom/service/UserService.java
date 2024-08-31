@@ -21,20 +21,7 @@ public class UserService{
 	{
 		return userRepo.findByUserIdAndPassword(userId, password);
 	}
-	
-//	@Override
-//	public User getByUserId(int userId) throws InvalidUserException {
-//		
-//		Optional<User> user = userRepo.findById(userId);
-//		if(!user.isPresent()) {
-//			//throw new InvalidUserException("No user Available with the Id : " + userId);
-//			return null;
-//		}
-//		else {
-//			return user.get();		
-//		}
-//	}
-	
+
 	
 	public User getByUserId(int userId) throws InvalidUserException {
 	    Optional<User> user = userRepo.findById(userId);
