@@ -23,37 +23,28 @@ import com.rk.iom.service.UserService;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<String> loginUser(@RequestBody User user) throws InvalidUserException{
+	public ResponseEntity<String> loginUser(@RequestBody User user) throws InvalidUserException {
 		int tempUserId = user.getUserId();
 		String tempPassword = user.getPassword();
 		User userObj = null;
-		if(tempUserId != 0 && tempPassword != null){
+		if (tempUserId != 0 && tempPassword != null) {
 			userObj = userService.fetchUserByIdAndPassword(tempUserId, tempPassword);
 		}
-		if(userObj == null){
+		if (userObj == null) {
 			throw new InvalidUserException("Wrong userId and Password");
 		}
-		return new ResponseEntity<>("Login Successfull",HttpStatus.OK);
+		return new ResponseEntity<>("Login Successfull", HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/addUser")
-	public ResponseEntity<User> saveUser(@RequestBody User user) throws InvalidUserException{
-		User existingUser = userService.getByUserId(user.getUserId());
-		if(existingUser != null) {
-			return new ResponseEntity("User with that ID already Exists", HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<User> saveUser(@RequestBody User user) throws InvalidUserException {
 		User u = userService.addUser(user);
-		if(u == null) {
-			return new ResponseEntity("Sorry! Users are not available!", HttpStatus.NOT_FOUND);
-		}
-		else {
-			return new ResponseEntity<User>(u,HttpStatus.CREATED );
-		}
+		return new ResponseEntity<User>(u, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/byId/{userId}")
@@ -71,11 +62,11 @@ public class UserController {
 		else {
 			return new ResponseEntity<User>(u,HttpStatus.OK);
 		}
-		
+
 	}
 	
 	@DeleteMapping("/deleteUser/{userId}")
-	public ResponseEntity<List<User>> deleteUser(@PathVariable("userId") Integer userId) {
+	public ResponseEntity<List<User>> deleteUser(@PathVariable("userId") Integer userId) throws InvalidUserException {
 		
 		List<User> users = userService.removeUser(userId);
 		if(users.isEmpty() || users == null) {

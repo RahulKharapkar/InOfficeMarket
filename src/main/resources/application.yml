@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: local
+
+# Project version
+project:
+  version: "@project.version@"
