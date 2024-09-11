@@ -29,6 +29,7 @@ public class Employee {
 	private String empName;
 
 	@NotBlank(message = "department name cannot be blank")
+	@NotNull(message = "DeptName cannot be null")
 	@Column(name = "dept_name")
 	private String deptName;
 

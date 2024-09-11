@@ -7,13 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.rk.iom.exception.InvalidEmployeeException;
 import com.rk.iom.model.Employee;
@@ -42,9 +36,7 @@ public class EmployeeController {
 			logger.warn("Employee with ID: {} not found", employeeId);
 			return new ResponseEntity(" Employee not available!", HttpStatus.NOT_FOUND);}
 		else {
-			
-			return new ResponseEntity<>(employee, HttpStatus.OK);
-		}
+			return new ResponseEntity<>(employee, HttpStatus.OK);}
 	}
 
 	@PostMapping("/addEmployee")
@@ -69,7 +61,7 @@ public class EmployeeController {
 		Employee emp = empService.editEmployee(employee);
 		if (emp == null) {
 			logger.error("Error in editing an employee", employeeId);
-			return new ResponseEntity("Sorry! Employee not editied!", HttpStatus.NOT_FOUND);
+			return new ResponseEntity("Sorry! Employee not edited!", HttpStatus.NOT_FOUND);
 		} else {	
 			return new ResponseEntity<>(emp, HttpStatus.OK);
 		}
@@ -105,11 +97,11 @@ public class EmployeeController {
 		
 		int empId = offer.getEmp().getEmpId();
 		Offer off = empService.updateIsAvailable(offer);
-		logger.info(" Request recieved in updateOffer to Update isAvailable with empId : ", empId);
+		logger.info(" Request received in updateOffer to Update isAvailable with empId : ", empId);
 
 		if (off == null) {
 			logger.error(" error in updateOffer : ", empId);
-			return new ResponseEntity("Sorry! Offer not editied!", HttpStatus.NOT_FOUND);
+			return new ResponseEntity("Sorry! Offer not edited!", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(off, HttpStatus.OK);
 		}
@@ -121,8 +113,8 @@ public class EmployeeController {
 		logger.info("Request to update the requirement with empId : ",empId);
 		Requirement req = empService.updateIsFulfilled(requirement);
 		if (req == null) {
-			logger.error(" Error occured in updateRequirement : ",empId);
-			return new ResponseEntity("Sorry! Requirement not editied!", HttpStatus.NOT_FOUND);
+			logger.error(" Error occurred in updateRequirement : ",empId);
+			return new ResponseEntity("Sorry! Requirement not edited!", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(req, HttpStatus.OK);
 		}
@@ -132,14 +124,20 @@ public class EmployeeController {
 	public ResponseEntity<Proposal> updateProposal(@RequestBody @Valid Proposal proposal) {
 		int empId = proposal.getEmp().getEmpId();
 		
-		logger.info("Request recieved in updateProposal with empId : ", empId);
+		logger.info("Request received in updateProposal with empId : ", empId);
 		Proposal prop = empService.updateIsAccepted(proposal);
 		if (prop == null) {
 			logger.error(" error in updateProposal with empId : ",empId);
-			return new ResponseEntity("Sorry! Proposal cannot editied!", HttpStatus.NOT_FOUND);
+			return new ResponseEntity("Sorry! Proposal cannot edited!", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(prop, HttpStatus.OK);
 		}
+	}
+
+	@DeleteMapping("/deleteEmployee/{empId}")
+	public ResponseEntity<String> deleteEmployee(@PathVariable("empId")int empId) throws InvalidEmployeeException {
+		String isEmployeDeleted = empService.removeEmployee(empId);
+		return  new ResponseEntity<>(isEmployeDeleted,HttpStatus.OK);
 	}
 
 }

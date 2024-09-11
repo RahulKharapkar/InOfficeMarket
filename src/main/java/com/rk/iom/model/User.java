@@ -19,13 +19,10 @@ public class User {
 	@Column(name = "email_id")
 	private String emailId;
 
-
-//	@OneToOne(mappedBy = "user",cascade= CascadeType.ALL)
-//	private Employee employee; 			
 	
 	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="emp_id")
-	private Employee employee; 				                  
+	private Employee employee;
 	
 	public User() { 					
 

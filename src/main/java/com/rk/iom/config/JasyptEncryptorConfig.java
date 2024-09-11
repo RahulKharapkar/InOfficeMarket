@@ -1,4 +1,4 @@
-package com.rk.iom;
+package com.rk.iom.config;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
@@ -11,8 +11,9 @@ public class JasyptEncryptorConfig {
 
 	@Bean(name = "jasyptStringEncryptor")
 	public StringEncryptor getPasswordEncryptor(){
-		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+
 		config.setPassword("encryptedkey"); // encryptor's private key
         config.setAlgorithm("PBEWithMD5AndDES");
         config.setKeyObtentionIterations("1000");
@@ -20,6 +21,8 @@ public class JasyptEncryptorConfig {
         config.setProviderName("SunJCE");
         config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
         config.setStringOutputType("base64");
+
+        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         encryptor.setConfig(config);
         return encryptor;
     }

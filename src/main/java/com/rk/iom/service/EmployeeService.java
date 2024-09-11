@@ -49,7 +49,7 @@ public class EmployeeService {
 		return empRepo.save(emp);
 	}
 
-//	Employee -- Offer Section
+//	Employee -- Offer Section check if employee has any offers
 
 	public List<Offer> getAllOffers(int empId) throws InvalidEmployeeException {
 		if (offerRepo.findOffersForEmployeeId(empId).isEmpty()) {
@@ -104,4 +104,11 @@ public class EmployeeService {
 
 	}
 
+    public String removeEmployee(long empId) throws  InvalidEmployeeException{
+		if(empRepo.findEmployeeByEmpId((int)empId)==null){
+					throw new InvalidEmployeeException("Employee for empId"+empId+" Not Found");
+		}
+		empRepo.deleteById((int) empId);
+		return "Employee Deleted Successfully";
+    }
 }
