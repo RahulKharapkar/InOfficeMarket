@@ -9,14 +9,9 @@ InOffice Marketplace is an in-house platform designed for employees to offer or 
 - **Item Listings**: Post items you want to sell or services you offer.
 - **Request Listings**: Seek specific items or services from other employees.
 - **Categories**: Organize listings into different categories for easy navigation.
-- **Search Functionality**: Quickly find what you're looking for with the search feature.
 - **Swagger API Documentation**: Easily explore and test the API endpoints.
 
 ## Installation
-### Prerequisites
-- Java 11 or higher
-- Maven
-- MySQL Database
 
 ### Steps
 1. Clone the repository:
@@ -43,12 +38,18 @@ InOffice Marketplace is an in-house platform designed for employees to offer or 
     ```bash
     mvn spring-boot:run
     ```
-
+### Technologies:
+- Java 17 or above
+- Spring Boot 3.0
+- Maven
+- MySQL
+- Spring Data JPA
 ## Usage
 - **Home Page**: Browse all available listings.
 - **Post New Listing**: Create a new listing by providing details about the item or service.
 - **Search Listings**: Use the search bar to find specific items or services.
 - **API Documentation**: Access the Swagger UI for API documentation locally at [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/).
+
 
 ## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
